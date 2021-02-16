@@ -2,6 +2,9 @@
 
 :root {
   --dark-blue: #363636;
+  --green: #49aa26;
+  --light-green: #3dd705;
+  --red: #e92929;
 }
 
 * {
@@ -10,9 +13,27 @@
   box-sizing: border-box;
 }
 
+html {
+  /* 15px, pois o valor padrão do navegador é 16px*/
+  font-size: 93.75%;
+}
+
 body {
   background: #f0f2f5;
   font-family:'Poppins', sans-serif
+}
+
+/* CSS Tricks - Equivalente ao display none, porém não vai afetar os leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .container {
@@ -27,6 +48,52 @@ h2 {
   margin-bottom: 0.8rem;
   color: var(--dark-blue);
   font-weight: normal;
+}
+
+/* Links & Buttons ################### */
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--light-green);
+}
+
+button {
+  width: 100%;
+  height: 50px;
+  border: none;
+  color: white;
+  background: var(--green);
+  padding: 0;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+button:hover{
+  background: var(--light-green);
+}
+
+.button.cancel {
+  color: var(--red);
+  border: 2px var(--red) solid;
+  border-radius: 0.25rem;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.6;
+}
+
+.button.cancel:hover {
+  opacity: 1;
+}
+
+.button.new {
+  /* Usando inline para que a margin-bottom possa ser aplicada e o block para que a caixa seja o tamanho do texto e não a linha toda */
+  display: inline-block;
+  margin-bottom: .8rem;
 }
 
 /* Header ################### */
@@ -64,6 +131,12 @@ header {
 .card h3 {
   font-weight: normal;
   font-size: 1rem;
+  display: flex;
+  /* Alinhamento vertical dos elementos (Imagem e texto) */
+  align-items: center;
+  /* Define o espaço entre os elementos */
+  justify-content: space-between;
+  
 }
 
 .card p {
@@ -74,11 +147,18 @@ header {
 
 /* Formatação para o elemento que possui as duas classes (card e total) */
 .card.total {
-  background: #49aa26;
+  background: var(--green);
   color: white;
 }
 
 /* Table ################### */
+#transaction {
+  display: block;
+  /* Quando tabela for mais larga que a tela, vai ser criado uma rolagem no eixo x */
+  overflow-x: auto; 
+  width: 100%;
+}
+
 #data-table {
   width: 100%;
   /* Espaçamento 0 entre as colunas e de 05 entre as linhas */
@@ -108,10 +188,16 @@ table tbody td {
   padding: 1rem 2rem;
 }
 
-/* pseudo seletores */
+/* pseudo seletores - primeiros filhos*/
 table thead tr th:first-child,
 table tbody tr td:first-child {
   border-radius: 0.25rem 0 0 0.25rem;
+}
+
+/* pseudo seletores - últimos filhos*/
+table thead tr th:last-child,
+table tbody tr td:last-child {
+  border-radius: 0 0.25rem 0.25rem 0;
 }
 
 td.description {
@@ -126,6 +212,82 @@ td.expense {
   color: #e92929;
 }
 
+td img {
+  display: flex;
+  align-items: center;
+}
+
+/* Modal ################### */
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  
+  position: fixed;
+  /* Propriedade disponível após usar o position */
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Ocultando modal por default */
+  opacity: 0;
+  visibility: hidden;
+
+  z-index: 1;
+}
+
+.modal-overlay.active {
+  /* Exibe modal */
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: #f0f2f5;
+  padding: 2.4rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  z-index: 999;
+}
+
+/* Form ################### */
+#form {
+  max-width: 500px;
+}
+
+#form h2 {
+  margin-top: 0;
+}
+
+input {
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.8rem;
+  width: 100%;
+}
+
+.input-group {
+  margin-top: 0.8rem;
+}
+
+.input-group small {
+  opacity: 0.4;
+}
+
+.input-group.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-group.actions .button, 
+.input-group.actions button
+{
+  width: 48%;
+}
 
 
 /* Footer ################### */
@@ -134,4 +296,19 @@ footer {
   padding: 4rem 0 2rem;
   color: var(--dark-blue);
   opacity: 0.6;
+}
+
+/* Responsive ################### */
+@media(min-width: 800px) {  /* A partir de 800, aplica essas configurações */
+ html {
+   font-size: 87.5%;
+ }
+
+ #balance {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr; /*  repeat(3,1fr) */
+   /* Espaço entre as colunas */
+   gap: 2rem
+   
+ }
 }
