@@ -103,7 +103,7 @@ const Utils = {
   formatCurrency(value) {
     const signal = value < 0 ? "-" : ""
     value = String(value).replace(/\D/g,"")
-    value = Number(value.replace(/\,\./g,"")) / 100
+    value = Number(value.replace(/\,?\.?/g,"")) / 100
     value = value.toLocaleString("py-BR",{
       style: "currency",
       currency: "BRL"
@@ -112,8 +112,8 @@ const Utils = {
     return signal + value
   },
   formatAmount(value) {
-    value = Number(value) * 100
-    return value
+    value = value * 100
+    return Math.round(value)
   },
   formatDate(date) {
     const splittedDate = date.split("-")
